@@ -1,0 +1,19 @@
+{
+  "name": "pub-sub",
+  "author": "DKmen",
+  "version": "1.0.0",
+  "description": "pub/sub consumer which consumer message, set manually ack time and proecess message",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/server.ts",
+    "message": "ts-node src/message.ts"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/pubsub": "^4.8.0",
+    "@types/node": "^22.7.8",
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.7",
+    "typescript": "^5.6.3"
+  }
+}

@@ -42,7 +42,7 @@ async function messageHandler(message: Message) {
     try {
         await new Promise((resolve, _) => setTimeout(resolve, 12 * 60 * 1000));
 
-        message.ack();
+        await message.ackWithResponse();
         console.log(`Ack for message ${message.id} successful.`);
         console.log(new Date().toISOString());
     } catch (e) {
@@ -52,7 +52,7 @@ async function messageHandler(message: Message) {
         console.log(
             `Ack for message ${message.id} failed with error: ${ackError.errorCode}`
         );
-        message.nack();
+        await message.nackWithResponse()
     }
 }
 

@@ -19,6 +19,7 @@ function getsubscription(
     subscription.setOptions({
         flowControl: {
             maxMessages: 2,
+            allowExcessMessages: false
         },
     });
 
@@ -29,6 +30,7 @@ function getsubscription(
 
 // message handler to process messages
 async function messageHandler(message: Message) {
+    console.log(new Date().toISOString());
     console.log(`Received message ${message.id}:`);
     console.log(`Data: ${JSON.stringify(message.data.toString())}`);
     console.log(`Attributes: ${JSON.stringify(message.attributes)}`);
@@ -38,10 +40,11 @@ async function messageHandler(message: Message) {
     // on the subscription, the message is guaranteed not to be delivered again
     // if the ack Promise resolves.
     try {
-        await new Promise((resolve) => setTimeout(resolve, 12 * 60 * 1000));
+        await new Promise((resolve, _) => setTimeout(resolve, 12 * 60 * 1000));
 
-        await message.ackWithResponse();
+        message.ack();
         console.log(`Ack for message ${message.id} successful.`);
+        console.log(new Date().toISOString());
     } catch (e) {
         // In all other cases, the error passed on reject will explain why. This
         // is only for permanent failures; transient errors are retried automatically.
@@ -49,6 +52,7 @@ async function messageHandler(message: Message) {
         console.log(
             `Ack for message ${message.id} failed with error: ${ackError.errorCode}`
         );
+        message.nack();
     }
 }
 
